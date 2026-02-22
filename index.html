@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAGET - Tanzanite Generation Tracers</title>
+    <style>
+
+        :root {
+            --green: #00ff88;
+            --yellow: #ffd700;
+            --black: #0a0a0a;
+            --dark: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(10, 10, 10, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--green);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .nav-logo span {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--green);
+        }
+
+        .nav-logo span b {
+            color: var(--yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--green);
+            color: var(--black);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--green);
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            background: radial-gradient(circle at center, #0d1f0d 0%, var(--black) 70%);
+        }
+
+        .hero-logo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--green);
+            margin-bottom: 25px;
+            animation: glow 2s infinite;
+            object-fit: cover;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 15px var(--green); }
+            50% { box-shadow: 0 0 40px var(--yellow); }
+            100% { box-shadow: 0 0 15px var(--green); }
+        }
+
+        .hero-badge {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: fadeIn 1s;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            letter-spacing: 4px;
+            margin-bottom: 5px;
+            animation: fadeIn 1.2s;
+        }
+
+        .hero h1 .t { color: var(--green); }
+        .hero h1 .a { color: var(--yellow); }
+        .hero h1 .g { color: var(--green); }
+        .hero h1 .e { color: var(--yellow); }
+        .hero h1 .tt { color: var(--green); }
+
+        .hero-full {
+            font-size: 14px;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            animation: fadeIn 1.4s;
+        }
+
+        .hero h2 {
+            font-size: 20px;
+            color: #ccc;
+            font-weight: 300;
+            margin-bottom: 25px;
+            animation: fadeIn 1.6s;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #999;
+            max-width: 650px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            animation: fadeIn 1.8s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeIn 2s;
+        }
+
+        .btn-green {
+            padding: 14px 35px;
+            background: var(--green);
+            color: var(--black);
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-green:hover {
+            background: #00cc6a;
+            transform: scale(1.05);
+        }
+
+        .btn-yellow {
+            padding: 14px 35px;
+            background: transparent;
+            color: var(--yellow);
+            font-weight: bold;
+            font-size: 16px;
+            border: 2px solid var(--yellow);
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-yellow:hover {
+            background: var(--yellow);
+            color: var(--black);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== STATS ========== */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 50px 20px;
+            background: #111;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--green);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* ========== ABOUT ========== */
+        .about {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .section-title span { color: var(--yellow); }
+
+        .line {
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(to right, var(--green), var(--yellow));
+            margin: 10px auto 30px;
+            border-radius: 2px;
+        }
+
+        .about p {
+            font-size: 17px;
+            color: #bbb;
+            max-width: 750px;
+            margin: 0 auto 15px;
+            line-height: 1.8;
+        }
+
+        .est {
+            color: var(--yellow);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* ========== MALENGO ========== */
+        .goals {
+            padding: 80px 5%;
+            background: var(--dark);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--black);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid var(--green);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-left-color: var(--yellow);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.1);
+        }
+
+        .card .icon { font-size: 35px; margin-bottom: 12px; }
+        .card h3 { color: var(--green); margin-bottom: 8px; font-size: 18px; }
+        .card p { color: #999; font-size: 14px; line-height: 1.6; }
+
+        /* ========== CHARITY ========== */
+        .charity {
+            padding: 80px 5%;
+            text-align: center;
+            background: var(--black);
+        }
+
+        .charity-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .charity-card {
+            background: var(--dark);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            width: 280px;
+            transition: 0.3s;
+        }
+
+        .charity-card:hover {
+            border-color: var(--green);
+            transform: translateY(-5px);
+        }
+
+        .charity-card .icon { font-size: 40px; margin-bottom: 10px; }
+        .charity-card h3 { color: var(--yellow); margin-bottom: 8px; }
+        .charity-card p { color: #888; font-size: 14px; }
+
+        /* ========== SLOGAN ========== */
+        .slogan {
+            padding: 80px 20px;
+            text-align: center;
+            background: radial-gradient(circle, #1a1a00 0%, var(--black) 70%);
+        }
+
+        .slogan h2 {
+            font-size: 38px;
+            color: var(--yellow);
+            margin-bottom: 15px;
+        }
+
+        .slogan p {
+            font-size: 17px;
+            color: #aaa;
+            max-width: 550px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* ========== UONGOZI ========== */
+        .team {
+            padding: 80px 5%;
+            background: var(--dark);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .member {
+            background: var(--black);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.3s;
+        }
+
+        .member:hover {
+            border-color: var(--green);
+            transform: translateY(-5px);
+        }
+
+        .member .avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--green), var(--yellow));
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--black);
+            font-weight: bold;
+        }
+
+        .member h3 { color: var(--green); font-size: 16px; margin-bottom: 5px; }
+        .member .role { color: var(--yellow); font-size: 13px; margin-bottom: 8px; }
+        .member .phone { color: #666; font-size: 13px; }
+        .member .phone a { color: #888; text-decoration: none; }
+        .member .phone a:hover { color: var(--green); }
+
+        /* ========== CONTACT ========== */
+        .contact {
+            padding: 80px 5%;
+            text-align: center;
+            background: var(--black);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item .icon { font-size: 30px; margin-bottom: 8px; }
+        .contact-item p { color: #aaa; font-size: 14px; }
+        .contact-item a { color: var(--green); text-decoration: none; }
+        .contact-item a:hover { color: var(--yellow); }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: var(--dark);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--green);
+        }
+
+        .contact-form textarea { height: 130px; resize: vertical; }
+
+        /* ========== FOOTER ========== */
+        footer {
+            padding: 40px 20px;
+            background: #050505;
+            text-align: center;
+            border-top: 2px solid var(--green);
+        }
+
+        .footer-logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+
+        .footer-logo b { color: var(--yellow); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--green); }
+
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark);
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social a:hover {
+            background: var(--green);
+            border-color: var(--green);
+            transform: scale(1.1);
+        }
+
+        .copyright {
+            color: #444;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        .copyright span { color: var(--yellow); }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+
+            .hamburger { display: flex; }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(10,10,10,0.98);
+                padding: 20px;
+                border-bottom: 2px solid var(--green);
+                gap: 5px;
+            }
+
+            .nav-links.active { display: flex; }
+
+            .hero h1 { font-size: 32px; letter-spacing: 2px; }
+            .hero h2 { font-size: 16px; }
+            .hero-full { font-size: 11px; letter-spacing: 1px; }
+            .hero p { font-size: 15px; }
+            .hero-logo { width: 120px; height: 120px; }
+
+            .hero-buttons { flex-direction: column; align-items: center; }
+
+            .stat-num { font-size: 32px; }
+            .stats { gap: 25px; }
+
+            .section-title { font-size: 26px; }
+            .slogan h2 { font-size: 26px; }
+
+            .footer-links { flex-direction: column; gap: 8px; }
+        }
+
+    </style>
+</head>
+<body>
+<a href="https://wa.me/255650137481?text=Habari%20TAGET%20nataka%20kujiunga"
+   target="_blank"
+   style="position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-contenth:center;font-size:30px;text-decoration:none;z-index:999;box-shadow:0 4px 15px rgba(37,211,102,0.4);">💬</a>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-logo">
+            <div style="width:40px;height:40px;background:linear-gradient(135deg,#00ff88,#ffd700);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#0a0a0a;font-family:Georgia,serif;">T</div>
+            <span>TAG<b>ET</b></span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Nyumbani</a>
+            <a href="#about">Kuhusu</a>
+            <a href="#goals">Malengo</a>
+            <a href="#charity">Charity</a>
+            <a href="#team">Uongozi</a>
+            <a href="#contact">Wasiliana</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:80px;font-weight:900;color:#0a0a0a;font-family:Georgia,serif;background:linear-gradient(135deg,#00ff88,#ffd700);border:none;">T</div>
+        <div class="hero-badge">🇹🇿 Kwa Vijana, Na Vijana | Est. 2023</div>
+        <h1>
+            <span class="t">T</span><span class="a">A</span><span class="g">G</span><span class="e">E</span><span class="tt">T</span>
+        </h1>
+        <div class="hero-full">TANZANITE GENERATION TRACERS</div>
+        <h2>Kizazi cha Mabadiliko Kinaanza Hapa</h2>
+        <p>
+            TAGET siyo tu taasisi ya vijana — ni harakati ya kizazi.
+            Ilianzishwa 2023 kwa ndoto ya kuamsha, kuhamasisha, na kuunda
+            jamii ya vijana wenye dira, uthubutu na ubunifu. Kampeni zetu
+            zimeanza rasmi 2025!
+        </p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn-green">Jiunge Nasi 🚀</a>
+            <a href="#about" class="btn-yellow">Jifunze Zaidi 📖</a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Vijana Wamejiunga</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Charity Zimefanyika</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">2023</div>
+            <div class="stat-label">Mwaka wa Kuanzishwa</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Ndoto za Vijana</div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <h2 class="section-title">Kuhusu <span>TAGET</span></h2>
+        <div class="line"></div>
+        <p>
+            Ikiwa na jina linalotokana na jiwe adimu la Tanzanite,
+            TAGET inasimamia thamani, uzalendo na upekee wa vijana
+            wa Tanzania. Tunaamini kila kijana ana uwezo wa kubadilisha
+            dunia — anahitaji tu fursa, mwongozo na jukwaa sahihi.
+        </p>
+        <p>
+            TAGET ilianzishwa mwaka 2023 na kampeni zake zimeanza
+            rasmi mwaka 2025. Tumefanya charity 2 na tunaendelea
+            na mipango mikubwa zaidi kwa ajili ya vijana wa Tanzania.
+        </p>
+        <p class="est">💎 Ilianzishwa 2023 | Kampeni rasmi 2025</p>
+    </section>
+
+    <!-- MALENGO -->
+    <section class="goals" id="goals">
+        <h2 class="section-title" style="text-align:center;">
+            Malengo <span>Makuu</span>
+        </h2>
+        <div class="line"></div>
+        <div class="grid">
+            <div class="card">
+                <div class="icon">💼</div>
+                <h3>Ajira kwa Vijana</h3>
+                <p>Kutoa ajira kwa vijana kupitia miradi bunifu na za kijamii.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔬</div>
+                <h3>Sayansi na Teknolojia</h3>
+                <p>Kuhamasisha maendeleo ya sayansi na teknolojia ndani ya taifa.</p>
+            </div>
+            <div class="card">
+                <div class="icon">💡</div>
+                <h3>Ubunifu wa Kijamii</h3>
+                <p>Kutatua changamoto mbalimbali za kijamii kwa njia za ubunifu.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🤝</div>
+                <h3>Amani na Mshikamano</h3>
+                <p>Kuhimiza amani, mshikamano na maelewano miongoni mwa Watanzania.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📢</div>
+                <h3>Kampeni na Mijadala</h3>
+                <p>Kuongeza uelewa kupitia kampeni na mijadala yenye tija.</p>
+            </div>
+            <div class="card">
+                <div class="icon">⭐</div>
+                <h3>Kukuza Vipaji</h3>
+                <p>Kuchochea na kukuza vipaji vya vijana wa Kitanzania.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🏪</div>
+                <h3>Huduma za Kijamii</h3>
+                <p>Kutoa huduma za kijamii kupitia biashara na ubia wa kimkakati.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHARITY -->
+    <section class="charity" id="charity">
+        <h2 class="section-title">Kazi <span>Zetu</span></h2>
+        <div class="line"></div>
+        <p style="color:#aaa; max-width:600px; margin:0 auto;">
+            Ingawa bado hatujasajiliwa rasmi, TAGET imeshafanya kazi
+            za kijamii zinazogusa maisha ya watu.
+        </p>
+        <div class="charity-grid">
+            <div class="charity-card">
+                <div class="icon">❤️</div>
+                <h3>Charity ya Kwanza</h3>
+                <p>Tulifanya charity yetu ya kwanza iliyojulikana kama (MOYO KWA MOYO) kutoa msaada watoto yatima Goba kibululu(Rising orphanage center).</p>
+            </div>
+            <div class="charity-card">
+                <div class="icon">💛</div>
+                <h3>Charity ya Pili</h3>
+                <p>Charity yetu ya pili ya (TUVUKE NAO KWA UPENDO) iliendelea kuonyesha upendo kwa jamii pale pale Rising orphanage center lakini mara hii tulilenga kuwapatia vifaa vya shule waweze kusoma kwa furaha pamoja na wenzao.</p>
+            </div>
+                      <div class="charity-card">
+                <div class="icon">📋</div>
+                <h3>Mipango Ijayo</h3>
+                <p>Tunajipanga kwa miradi mikubwa zaidi. Usajili wa rasmi unakuja!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLOGAN -->
+    <section class="slogan">
+        <h2>💎 "Take Control and Make It Happen"</h2>
+        <p>
+            Inakuhamasisha kuwa mtendaji, siyo mtazamaji wa maisha.
+            Kizazi hiki ni chako — ichukue, itengeneze, iibadilishe!
+        </p>
+        <a href="#contact" class="btn-green">Jiunge na TAGET Leo! 🔥</a>
+    </section>
+
+    <!-- UONGOZI -->
+    <section class="team" id="team">
+        <h2 class="section-title" style="text-align:center;">
+            Uongozi wa <span>TAGET</span>
+        </h2>
+                <div class="line"></div>
+        <div class="team-grid">
+
+            <div class="member">
+                <div class="avatar">PR</div>
+                <h3>Prudence Revelian</h3>
+                <div class="role">Mwenyekiti</div>
+                <div class="phone">
+                    <a href="tel:+255741698068">+255 741 698 068</a>
+                </div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">CI</div>
+                <h3>Clara Issac</h3>
+                <div class="role">Makamu Mwenyekiti</div>
+                <div class="phone"></div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">AA</div>
+                <h3>Abdulrahman Ally</h3>
+                <div class="role">Katibu Mkuu</div>
+                <div class="phone"></div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">TM</div>
+                <h3>Thomas Milongo</h3>
+                <div class="role">Mkurugenzi Mtendaji</div>
+                <div class="phone">
+                    <a href="tel:+255744830658">+255 744 830 658</a>
+                </div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">RH</div>
+                <h3>Rajabu Haji</h3>
+                <div class="role">Makamu Mkurugenzi Mtendaji</div>
+                <div class="phone"></div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">AM</div>
+                <h3>Abubakari Mkamba</h3>
+                <div class="role">Mweka Hazina</div>
+                <div class="phone"></div>
+            </div>
+
+            <div class="member">
+                <div class="avatar">YH</div>
+                <h3>Yahya Hamis</h3>
+                <div class="role">Director of Finance</div>
+                <div class="phone"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">Wasiliana <span>Nasi</span></h2>
+        <div class="line"></div>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="icon">📞</div>
+                <p>Simu</p>
+                <a href="tel:+255650137481">+255 650 137 481</a>
+            </div>
+            <div class="contact-item">
+                          <div class="icon">📸</div>
+                <p>Instagram</p>
+                <a href="https://www.instagram.com/taget_org" target="_blank">@taget_org</a>
+            </div>
+        </div>
+
+        <div class="contact-form">
+    <input type="text" id="jina" placeholder="Jina Lako Kamili">
+    <input type="email" id="email" placeholder="Email Yako">
+    <input type="text" id="mada" placeholder="Mada">
+    <textarea id="ujumbe" placeholder="Ujumbe wako..."></textarea>
+    <button class="btn-primary" onclick="sendWhatsApp()" style="width:100%;">
+        Tuma Ujumbe ✉️
+    </button>
+</div>
+<div style="margin-top:20px;">
+    <p style="color:#888;margin-bottom:10px;">Au wasiliana moja kwa moja:</p>
+    <a href="https://wa.me/255650137481?text=Habari%20TAGET%20nataka%20kujiunga"
+       style="padding:14px 35px;background:#25D366;color:white;font-weight:bold;font-size:16px;border:none;border-radius:50px;text-decoration:none;display:inline-block;"
+       target="_blank">WhatsApp Sasa 💬</a>
+</div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">TAG<b>ET</b></div>
+        <p style="color:#666; font-size:13px;">Tanzanite Generation Tracers</p>
+
+        <div class="footer-links">
+            <a href="#home">Nyumbani</a>
+            <a href="#about">Kuhusu</a>
+            <a href="#goals">Malengo</a>
+            <a href="#charity">Charity</a>
+            <a href="#team">Uongozi</a>
+            <a href="#contact">Wasiliana</a>
+        </div>
+
+        <div class="social">
+            <a href="https://www.instagram.com/taget_org" target="_blank">📸</a>
+            <a href="tel:+255650137481">📞</a>
+        </div>
+
+        <div class="copyright">
+                  © 2025 <span>TAGET</span> — Tanzanite Generation Tracers.
+            Ilianzishwa 2023. Haki zote zimehifadhiwa.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+    <script>
+function sendWhatsApp() {
+    const jina = document.getElementById('jina').value;
+    const email = document.getElementById('email').value;
+    const mada = document.getElementById('mada').value;
+    const ujumbe = document.getElementById('ujumbe').value;
+    if (!jina || !ujumbe) { alert('Jaza jina na ujumbe!'); return; }
+    const msg = `*TAGET Website*%0A*Jina:* ${jina}%0A*Email:* ${email}%0A*Mada:* ${mada}%0A*Ujumbe:* ${ujumbe}`;
+    window.open(`https://wa.me/255650137481?text=${msg}`, '_blank');
+}
+</script>
+</body>
+
+</body>
+</html>
